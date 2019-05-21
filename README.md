@@ -16,12 +16,11 @@ First, setup the [Bookmark API](https://github.com/DCI-fbw11/bookmark-api#gettin
 The Bookmark API (***Backend***) will run on http://localhost:4000  
 
 You can now setup the React App
- - clone this repository the repository and install the dependencies
+ - clone this repository and install the dependencies
  - run the dev environment with   
  ```npm start```
 
 This React App (***Frontend***) will run on http://localhost:3000
-
 
 ## Proxy settings
 
