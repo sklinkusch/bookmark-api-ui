@@ -16,7 +16,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button type="button" class="btn btn-primary"><i class="fab fa-chrome"></i> Bookmark API v1.0</button>
+          <button type="button" className="btn btn-primary"><i className="fab fa-chrome"></i> Bookmark API v1.0</button>
 
         </a>
       </header>
