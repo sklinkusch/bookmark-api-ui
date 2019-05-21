@@ -1,68 +1,115 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Bookmark API UI
 
-## Available Scripts
+A Frontend application for the [Bookmark API](https://github.com/DCI-fbw11/bookmark-api)
 
-In the project directory, you can run:
+This setup use CRA, Sass, Bootstrap and a proxy
 
-### `npm start`
+## Requirements & Setup
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+First, setup the [Bookmark API](https://github.com/DCI-fbw11/bookmark-api#getting-started)   
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+ - clone the repository and install the dependencies
+ - run mongod
+ - run the dev environment with   
+ ```npm run dev```
 
-### `npm test`
+The Bookmark API (***Backend***) will run on http://localhost:4000  
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+You can now setup the React App
+ - clone this repository the repository and install the dependencies
+ - run the dev environment with   
+ ```npm start```
 
-### `npm run build`
+This React App (***Frontend***) will run on http://localhost:3000
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Proxy settings
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The frontend application use a proxy to avoids *CORS* issues.  
+In [package.json](package.json) we use
+```
+"proxy": "http://localhost:4000"
+```
 
-### `npm run eject`
+This way, when you fetch('/api/bookmarks') in development, the development server will recognize that it’s not a static asset, and will proxy your request to http://localhost:4000/api/bookmarks as a fallback. 
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+More info about the [proxying API requests in Development](https://facebook.github.io/create-react-app/docs/proxying-api-requests-in-development)
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Request examples
 
-## Learn More
+### Registration
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+fetch('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({
+            "registerData" : {
+                "username": "demo",
+                "password": "123456789"
+            }
+        }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res=>res.json())
+  .then(data=>console.log(data))
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Authentication, receive a token
 
-### Analyzing the Bundle Size
+```
+  fetch('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({
+            "loginData" : {
+                "username": "demo",
+                "password": "123456789"
+            }
+        }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res=>res.json())
+  .then(data=>console.log(data))
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+```
 
-### Making a Progressive Web App
+### Retrieve all bookmarks for the current logged user
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```
+  fetch('/api/bookmarks', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWNlM2ZlZWY5ZjVjZDA5NTc3NTQ3OGRmIiwiaWF0IjoxNTU4NDQ2Mjg3LCJleHAiOjE1NTg0NDk4ODd9.vHUIgkPrMcgzgu55GJV3LgufAgpAnWbMHGjcWc_guMU'
+    }
+  })
+  .then(res=>res.json())
+  .then(data=>console.log(data))
+ ``` 
+  
+  ### Edit a Bookmark 
+  
+  ```
+  fetch('/api/bookmarks/5ce401549f5cd095775478e0', {
+    method: 'PUT',
+    body: JSON.stringify(
+        {
+            "shortDescription": "new bookmark - edited",
+            "url": "http://theinternet.web"
+        }
+    ),
+    headers: {
+      'Content-Type': 'application/json',
+	  'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWNlM2ZlZWY5ZjVjZDA5NTc3NTQ3OGRmIiwiaWF0IjoxNTU4NDQ2Mjg3LCJleHAiOjE1NTg0NDk4ODd9.vHUIgkPrMcgzgu55GJV3LgufAgpAnWbMHGjcWc_guMU'
+    }
+  })
+  .then(res=>res.json())
+  .then(data=>console.log(data))
+  ```

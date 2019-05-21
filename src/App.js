@@ -1,6 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
-import './App.css';
+import './styles/App.scss';
 
 function App() {
   return (
@@ -12,11 +12,12 @@ function App() {
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://bookmark-api.fbw-11.now.sh/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          <button type="button" class="btn btn-primary">Bookmark API v1.0</button>
+
         </a>
       </header>
     </div>
