@@ -9,24 +9,18 @@ export default class List extends Component {
     return (
       <div className="list">
         <div className="button-container">
-          <button
-            className="btn btn-success"
-            onClick={() => this.props.handleLogin()}
-          >
-            Login
-          </button>
-        </div>
-        {this.props.bookmarks !== undefined &&
-          this.props.bookmarks.map((bookmark, index) => (
-            <div className="row" key={index}>
-              <div className="title">{bookmark.title}</div>
-              <div className="url">{bookmark.url}</div>
-            </div>
-          ))}
-        <div className="button-container">
-          <Link to="/add">
-            <button className="btn btn-primary">Add item</button>
-          </Link>
+          {this.props.bookmarks !== undefined &&
+            this.props.bookmarks.map((bookmark, index) => (
+              <div className="row" key={index}>
+                <div className="title">{bookmark.title}</div>
+                <div className="url">{bookmark.url}</div>
+              </div>
+            ))}
+          <div className="button-container">
+            <Link to="/add">
+              <button className="btn btn-primary">Add item</button>
+            </Link>
+          </div>
         </div>
       </div>
     );

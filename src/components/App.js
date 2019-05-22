@@ -23,7 +23,6 @@ export default class App extends React.Component {
   }
   handleRegister = e => {
     e.preventDefault();
-    console.log("entering handleRegister");
     fetch("auth/register", {
       method: "POST",
       headers: {
@@ -44,23 +43,10 @@ export default class App extends React.Component {
           password: this.passwordField.current.value,
           isRegistered: true
         });
-        console.log("entering localstorage part");
         localStorage.setItem("isRegistered", "true");
-        localStorage.setItem("username", this.usernameField.current.value);
-        localStorage.setItem("password", this.passwordField.current.value);
       });
-    console.log(this.state.isRegistered);
   };
   handleLogin = e => {
-    const username =
-      this.usernameField.current !== null
-        ? this.usernameField.current.value
-        : this.state.username;
-    const password =
-      this.passwordField.current !== null
-        ? this.passwordField.current.value
-        : this.state.password;
-    console.log(`${username}, ${password}`);
     fetch("auth/login", {
       method: "POST",
       headers: {
@@ -68,8 +54,8 @@ export default class App extends React.Component {
       },
       body: JSON.stringify({
         loginData: {
-          username: username,
-          password: password
+          username: this.usernameField.current.value,
+          password: this.passwordField.current.value
         }
       })
     })
@@ -145,14 +131,20 @@ export default class App extends React.Component {
           <Route
             path="/bookmarks"
             render={() => (
-              <List
-                bookmarks={this.state.bookmarks}
-                getData={this.getData}
-                handleLogin={this.handleLogin}
+              <List bookmarks={this.state.bookmarks} getData={this.getData} />
+            )}
+          />
+          <Route
+            path="/add"
+            render={() => (
+              <Edidt
+                handleAdd={this.handleAdd}
+                urlField={this.urlField}
+                descriptionField={this.descriptionField}
+                titleField={this.titleField}
               />
             )}
           />
-          <Route path="/add" component={Edidt} />
         </BrowserRouter>
       </div>
     );
