@@ -14,8 +14,8 @@ export default class AppProvider extends Component {
       password: null,
       token: localStorage.getItem("token") || null,
       isRegistered: localStorage.getItem("isRegistered") || false,
-      handleRegister: (e) => {
-        e.preventDefault()
+      handleRegister: e => {
+        e.preventDefault();
         fetch("auth/register", {
           method: "POST",
           headers: {
@@ -30,6 +30,7 @@ export default class AppProvider extends Component {
         })
           .then(response => response.json())
           .then(data => {
+            console.log(data);
             this.setState({
               username: this.state.usernameField.current.value,
               password: this.state.passwordField.current.value,
@@ -37,10 +38,10 @@ export default class AppProvider extends Component {
             });
             localStorage.setItem("isRegistered", "true");
           });
-        console.log(this.state.isRegistered)
+        console.log(this.state.isRegistered);
       },
 
-      handleLogin: () => {
+      handleLogin: e => {
         fetch("auth/login", {
           method: "POST",
           headers: {
@@ -59,7 +60,7 @@ export default class AppProvider extends Component {
             localStorage.setItem("token", data.data.token);
           });
       },
-      handleAdd: (e) => {
+      handleAdd: e => {
         e.preventDefault();
         fetch("api/bookmarks", {
           method: "POST",
@@ -78,17 +79,19 @@ export default class AppProvider extends Component {
       },
       handleEdit: id => {
         fetch(`api/bookmarks/${id}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
-            'token': this.state.token
+            "Content-Type": "application/json",
+            token: this.state.token
           },
           body: JSON.stringify({
-            "url": this.state.urlField.current.value,
-            "shortDescription": this.state.descriptionField.current.value,
-            "title": this.state.titleField.current.value
+            url: this.state.urlField.current.value,
+            shortDescription: this.state.descriptionField.current.value,
+            title: this.state.titleField.current.value
           })
-        }).then(response => response.json()).then(data => console.log(data));
+        })
+          .then(response => response.json())
+          .then(data => console.log(data));
       }
     };
   }
