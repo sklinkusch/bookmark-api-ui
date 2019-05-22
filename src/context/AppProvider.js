@@ -7,7 +7,7 @@ export default class AppProvider extends Component {
     this.state = {
       username: null,
       password: null,
-      token: null
+      token: localStorage.getItem('token') || null
     }
   }
   render() {
