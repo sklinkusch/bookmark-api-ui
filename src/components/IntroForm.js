@@ -20,7 +20,7 @@ export default class IntroForm extends Component {
                 <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter password" ref={context.passwordField} />
               </div>
 
-              {context.isRegistered ? <button type="submit" class="btn btn-primary">Login</button> : <button type="submit" class="btn btn-primary" onClick={context.handleRegister}>Register</button>}
+              {context.isRegistered ? <button type="submit" class="btn btn-primary" onClick={context.handleLogin}>Login</button> : <button type="submit" class="btn btn-primary" onClick={context.handleRegister}>Register</button>}
 
 
             </form>

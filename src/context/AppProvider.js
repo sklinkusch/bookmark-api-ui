@@ -27,7 +27,28 @@ export default class AppProvider extends Component {
           this.setState({ username: this.usernameField.current.value, password: this.passwordField.current.value, isRegistered: true });
           localStorage.setItem('isRegistered', 'true');
         })
+      },
+
+      handleLogin: () => {
+        fetch('auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "loginData": {
+              "username": this.usernameField.current.value,
+              "password": this.passwordField.current.value
+            }
+          })
+        }).then(response => response.json()).then(data => {
+          this.setState({ token: data.data.token });
+          localStorage.setItem('token', data.data.token);
+        })
       }
+
+
+
     }
   }
   render() {
