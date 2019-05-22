@@ -2,55 +2,48 @@ import React, { Component } from "react";
 import AppContext from "../context/AppContext";
 
 export default class Edidt extends Component {
-  constructor(props) {
-    super(props)
-  }
   render() {
     return (
       <AppContext.Consumer>
         {context => (
           <div>
             <form>
-              <div class="form-group">
-                <label for="exampleInputEmail1">id</label>
+              <div className="form-group">
+                <label>id</label>
                 <input
                   type="text"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
+                  className="form-control"
                   readOnly
                 />
               </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">url</label>
+              <div className="form-group">
+                <label>url</label>
                 <input
                   type="text"
-                  class="form-control"
-                  id="exampleInputPassword1"
+                  className="form-control"
                   required
                   placeholder="provide your Url"
+                  ref={context.urlField}
                 />
               </div>
 
-              <div class="form-group">
-                <label for="exampleInputEmail1">Description</label>
+              <div className="form-group">
+                <label>Description</label>
                 <input
                   type="text"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
+                  className="form-control"
                   placeholder="add something"
+                  ref={context.descriptionField}
                 />
               </div>
 
-              <div class="form-group">
-                <label for="exampleInputEmail1">Title</label>
+              <div className="form-group">
+                <label>Title</label>
                 <input
                   type="text"
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
+                  className="form-control"
                   placeholder="add Title"
+                  ref={context.titleField}
                 />
               </div>
               {this.props.edit ? <button type="submit" className="btn btn-primary" onClick={context.handleEdit}>Edit bookmark</button> : <button
