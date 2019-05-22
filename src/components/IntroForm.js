@@ -17,6 +17,7 @@ export default class IntroForm extends Component {
   </div>
   
   <button type="submit" class="btn btn-primary">Register</button>
+  <button type="submit" class="btn btn-primary">Test</button>
 </form>
         
       </div>
