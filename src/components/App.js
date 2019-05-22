@@ -13,6 +13,7 @@ export default class App extends React.Component {
     this.urlField = React.createRef();
     this.descriptionField = React.createRef();
     this.titleField = React.createRef();
+    this.idField = React.createRef();
     this.state = {
       username: localStorage.getItem("username") || null,
       password: localStorage.getItem("password") || null,
@@ -81,7 +82,8 @@ export default class App extends React.Component {
       .then(response => response.json())
       .then(data => console.log(data));
   };
-  handleEdit = id => {
+  handleEdit = () => {
+    const id = this.idField.current.value;
     fetch(`api/bookmarks/${id}`, {
       method: "PUT",
       headers: {
@@ -139,6 +141,8 @@ export default class App extends React.Component {
             render={() => (
               <Edidt
                 handleAdd={this.handleAdd}
+                handleEdit={this.handleEdit}
+                idField={this.idField}
                 urlField={this.urlField}
                 descriptionField={this.descriptionField}
                 titleField={this.titleField}

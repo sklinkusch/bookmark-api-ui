@@ -7,13 +7,33 @@ export default class List extends Component {
   }
   render() {
     return (
-      <div className="list">
-        <div className="button-container">
+      <div className="list col-12">
+        <div className="button-container col-12">
           {this.props.bookmarks !== undefined &&
             this.props.bookmarks.map((bookmark, index) => (
               <div className="row" key={index}>
-                <div className="title">{bookmark.title}</div>
-                <div className="url">{bookmark.url}</div>
+                <div className="title col-2">{bookmark.title}</div>
+                <div className="url col-4">{bookmark.url}</div>
+                <div className="description col-4">
+                  {bookmark.shortDescription}
+                </div>
+                <div className="button-container col-2">
+                  <Link
+                    to={{
+                      pathname: "/add",
+                      state: {
+                        edit: true,
+                        id: bookmark._id,
+                        url: bookmark.url,
+                        desc: bookmark.shortDescription,
+                        title: bookmark.title
+                      }
+                    }}
+                  >
+                    <i className="fas fa-edit" />
+                    <i className="fas fa-trash-alt" />
+                  </Link>
+                </div>
               </div>
             ))}
           <div className="button-container">
