@@ -1,12 +1,18 @@
 import React from "react";
-import logo from "../styles/logo.svg";
+import { BrowserRouter, Route } from 'react-router-dom';
 import "../styles/App.scss";
 import IntroForm from "./IntroForm";
+import List from "./List";
+import Edidt from "./Edidt";
 
 function App() {
   return (
     <div className="App">
-      <IntroForm />
+      <BrowserRouter >
+        <Route exact path="/" component={IntroForm} />
+        <Route path="/bookmarks" component={List} />
+        <Route path="/add" component={Edidt} />
+      </BrowserRouter>
     </div>
   );
 }

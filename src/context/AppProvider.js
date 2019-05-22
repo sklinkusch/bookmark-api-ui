@@ -14,7 +14,8 @@ export default class AppProvider extends Component {
       password: null,
       token: localStorage.getItem("token") || null,
       isRegistered: localStorage.getItem("isRegistered") || false,
-      handleRegister: () => {
+      handleRegister: (e) => {
+        e.preventDefault()
         fetch("auth/register", {
           method: "POST",
           headers: {
@@ -22,20 +23,21 @@ export default class AppProvider extends Component {
           },
           body: JSON.stringify({
             registerData: {
-              username: this.usernameField.current.value,
-              password: this.passwordField.current.value
+              username: this.state.usernameField.current.value,
+              password: this.state.passwordField.current.value
             }
           })
         })
           .then(response => response.json())
           .then(data => {
             this.setState({
-              username: this.usernameField.current.value,
-              password: this.passwordField.current.value,
+              username: this.state.usernameField.current.value,
+              password: this.state.passwordField.current.value,
               isRegistered: true
             });
             localStorage.setItem("isRegistered", "true");
           });
+        console.log(this.state.isRegistered)
       },
 
       handleLogin: () => {
@@ -46,8 +48,8 @@ export default class AppProvider extends Component {
           },
           body: JSON.stringify({
             loginData: {
-              username: this.usernameField.current.value,
-              password: this.passwordField.current.value
+              username: this.state.usernameField.current.value,
+              password: this.state.passwordField.current.value
             }
           })
         })
@@ -57,7 +59,8 @@ export default class AppProvider extends Component {
             localStorage.setItem("token", data.data.token);
           });
       },
-      handleAdd: () => {
+      handleAdd: (e) => {
+        e.preventDefault();
         fetch("api/bookmarks", {
           method: "POST",
           headers: {
@@ -72,6 +75,20 @@ export default class AppProvider extends Component {
         })
           .then(response => response.json())
           .then(data => console.log(data));
+      },
+      handleEdit: id => {
+        fetch(`api/bookmarks/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.state.token
+          },
+          body: JSON.stringify({
+            "url": this.state.urlField.current.value,
+            "shortDescription": this.state.descriptionField.current.value,
+            "title": this.state.titleField.current.value
+          })
+        }).then(response => response.json()).then(data => console.log(data));
       }
     };
   }
