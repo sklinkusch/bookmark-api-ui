@@ -18,21 +18,8 @@ export default class List extends Component {
                   {bookmark.shortDescription}
                 </div>
                 <div className="button-container col-2">
-                  <Link
-                    to={{
-                      pathname: "/add",
-                      state: {
-                        edit: true,
-                        id: bookmark._id,
-                        url: bookmark.url,
-                        desc: bookmark.shortDescription,
-                        title: bookmark.title
-                      }
-                    }}
-                  >
-                    <i className="fas fa-edit" />
-                    <i className="fas fa-trash-alt" />
-                  </Link>
+                  <i className="fas fa-edit" />
+                  <i className="fas fa-trash-alt" />
                 </div>
               </div>
             ))}
