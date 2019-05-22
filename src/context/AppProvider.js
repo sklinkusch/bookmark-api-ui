@@ -14,6 +14,7 @@ export default class AppProvider extends Component {
       password: null,
       token: localStorage.getItem("token") || null,
       isRegistered: localStorage.getItem("isRegistered") || false,
+      bookmarks: [],
       handleRegister: () => {
         fetch("auth/register", {
           method: "POST",
