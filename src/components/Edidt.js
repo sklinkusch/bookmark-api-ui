@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import AppContext from "../context/AppContext";
 
 export default class Edidt extends Component {
+  constructor(props) {
+    super(props)
+  }
   render() {
     return (
       <AppContext.Consumer>
@@ -50,14 +53,13 @@ export default class Edidt extends Component {
                   placeholder="add Title"
                 />
               </div>
-
-              <button
+              {this.props.edit ? <button type="submit" className="btn btn-primary" onClick={context.handleEdit}>Edit bookmark</button> : <button
                 type="submit"
-                class="btn btn-primary"
+                className="btn btn-primary"
                 onClick={context.handleAdd}
               >
-                submit
-              </button>
+                Add bookmark
+              </button>}
             </form>
           </div>
         )}

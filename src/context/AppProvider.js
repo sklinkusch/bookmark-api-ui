@@ -72,6 +72,20 @@ export default class AppProvider extends Component {
         })
           .then(response => response.json())
           .then(data => console.log(data));
+      },
+      handleEdit: id => {
+        fetch(`api/bookmarks/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'token': this.state.token
+          },
+          body: JSON.stringify({
+            "url": this.state.urlField.current.value,
+            "shortDescription": this.state.descriptionField.current.value,
+            "title": this.state.titleField.current.value
+          })
+        }).then(response => response.json()).then(data => console.log(data));
       }
     };
   }
