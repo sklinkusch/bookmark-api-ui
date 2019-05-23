@@ -112,6 +112,14 @@ export default class App extends React.Component {
         this.setState({ bookmarks: data.data.bookmark });
       });
   };
+  handleDelete = (id) => {
+    fetch(`api/bookmarks/${id}`, {
+      method: "DELETE",
+      headers: {
+        'token': this.state.token
+      }
+    }).then(response => response.json()).then(data => console.log(data))
+  }
   render() {
     return (
       <div className="App">
@@ -132,7 +140,7 @@ export default class App extends React.Component {
           <Route
             path="/bookmarks"
             render={() => (
-              <List bookmarks={this.state.bookmarks} getData={this.getData} />
+              <List bookmarks={this.state.bookmarks} getData={this.getData} handleDelete={this.handleDelete} />
             )}
           />
           <Route

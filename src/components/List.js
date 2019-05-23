@@ -19,7 +19,7 @@ export default class List extends Component {
                 </div>
                 <div className="button-container col-2">
                   <Link to={{ pathname: "/edit", state: { id: bookmark._id, url: bookmark.url, desc: bookmark.shortDescription, title: bookmark.title } }}><i className="fas fa-edit" /></Link>
-                  <i className="fas fa-trash-alt" />
+                  <i className="fas fa-trash-alt" onClick={() => this.props.handleDelete(bookmark._id)} />
                 </div>
               </div>
             ))}
