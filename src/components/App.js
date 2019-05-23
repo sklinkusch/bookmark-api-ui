@@ -48,6 +48,7 @@ export default class App extends React.Component {
       });
   };
   handleLogin = e => {
+    e.preventDefault()
     fetch("auth/login", {
       method: "POST",
       headers: {
