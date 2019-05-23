@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 
 export default function Edidt(props) {
   console.log(props)
+  const url = "location" in props ? props.location.state.url : "";
+  const desc = "location" in props ? props.location.state.desc : "";
+  const title = "location" in props ? props.location.state.title : "";
   return (
     <div>
       <form>
@@ -18,7 +21,7 @@ export default function Edidt(props) {
             required
             placeholder="provide your Url"
             ref={props.urlField}
-            defaultValue={props.location.state.url}
+            defaultValue={url}
           />
         </div>
 
@@ -29,7 +32,7 @@ export default function Edidt(props) {
             className="form-control"
             placeholder="add something"
             ref={props.descriptionField}
-            defaultValue={props.location.state.desc}
+            defaultValue={desc}
           />
         </div>
 
@@ -40,10 +43,10 @@ export default function Edidt(props) {
             className="form-control"
             placeholder="add Title"
             ref={props.titleField}
-            defaultValue={props.location.state.title}
+            defaultValue={title}
           />
         </div>
-        {props.location.state.id ? (
+        {"location" in props ? (
           <Link to="../bookmarks">
             <button
               type="submit"

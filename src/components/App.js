@@ -80,7 +80,9 @@ export default class App extends React.Component {
       })
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        this.getData();
+      });
   };
   handleEdit = (id) => {
     fetch(`api/bookmarks/${id}`, {
@@ -96,7 +98,9 @@ export default class App extends React.Component {
       })
     })
       .then(response => response.json())
-      .then(data => console.log(data));
+      .then(data => {
+        this.getData();
+      });
   };
   getData = () => {
     fetch("api/bookmarks", {
@@ -118,7 +122,11 @@ export default class App extends React.Component {
       headers: {
         'token': this.state.token
       }
-    }).then(response => response.json()).then(data => console.log(data))
+    }).then(response => response.json()).then(data => {
+      this.getData()
+    })
+
+
   }
   render() {
     return (
