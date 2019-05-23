@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Redirect } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import "../styles/App.scss";
 import IntroForm from "./IntroForm";
 import List from "./List";
@@ -64,9 +64,6 @@ export default class App extends React.Component {
       .then(data => {
         this.setState({ token: data.data.token });
         localStorage.setItem("token", data.data.token);
-        if (data.error === "") {
-          return <Redirect to={List} />
-        }
       });
   };
   handleAdd = e => {
