@@ -2,13 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 export default function Edidt(props) {
+  console.log(props)
   return (
     <div>
       <form>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label>id</label>
-          <input type="text" className="form-control" readOnly />
-        </div>
+          <input type="text" className="form-control" readOnly /> */}
+        {/* </div> */}
         <div className="form-group">
           <label>url</label>
           <input
@@ -17,6 +18,7 @@ export default function Edidt(props) {
             required
             placeholder="provide your Url"
             ref={props.urlField}
+            defaultValue={props.location.state.url}
           />
         </div>
 
@@ -27,6 +29,7 @@ export default function Edidt(props) {
             className="form-control"
             placeholder="add something"
             ref={props.descriptionField}
+            defaultValue={props.location.state.desc}
           />
         </div>
 
@@ -37,30 +40,31 @@ export default function Edidt(props) {
             className="form-control"
             placeholder="add Title"
             ref={props.titleField}
+            defaultValue={props.location.state.title}
           />
         </div>
-        {props.edit ? (
+        {props.location.state.id ? (
           <Link to="../bookmarks">
             <button
               type="submit"
               className="btn btn-primary"
-              onClick={props.handleEdit}
+              onClick={() => props.handleEdit(props.location.state.id)}
             >
               Edit bookmark
             </button>
           </Link>
         ) : (
-          <Link to="../bookmarks">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={props.handleAdd}
-            >
-              Add bookmark
+            <Link to="../bookmarks">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={() => props.handleAdd()}
+              >
+                Add bookmark
             </button>
-          </Link>
-        )}
+            </Link>
+          )}
       </form>
-    </div>
+    </div >
   );
 }
