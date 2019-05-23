@@ -82,13 +82,12 @@ export default class App extends React.Component {
       .then(response => response.json())
       .then(data => console.log(data));
   };
-  handleEdit = () => {
-    const id = this.idField.current.value;
+  handleEdit = (id) => {
     fetch(`api/bookmarks/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        token: this.state.token
+        "token": this.state.token
       },
       body: JSON.stringify({
         url: this.urlField.current.value,
@@ -141,11 +140,22 @@ export default class App extends React.Component {
             render={() => (
               <Edidt
                 handleAdd={this.handleAdd}
+                idField={this.idField}
+                urlField={this.urlField}
+                descriptionField={this.descriptionField}
+                titleField={this.titleField}
+              />)}
+          />
+          <Route
+            path="/edit"
+            render={({ location }) => (
+              <Edidt
                 handleEdit={this.handleEdit}
                 idField={this.idField}
                 urlField={this.urlField}
                 descriptionField={this.descriptionField}
                 titleField={this.titleField}
+                location={location}
               />
             )}
           />
