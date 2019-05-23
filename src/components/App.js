@@ -19,7 +19,9 @@ export default class App extends React.Component {
       password: localStorage.getItem("password") || null,
       token: localStorage.getItem("token") || null,
       isRegistered: localStorage.getItem("isRegistered") || false,
-      bookmarks: []
+      bookmarks: [],
+      delete: 0,
+      edit: 0
     };
   }
   handleRegister = e => {
@@ -97,6 +99,7 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => console.log(data));
+    this.setState((prevState) => ({ edit: prevState.edit + 1 }));
   };
   getData = () => {
     fetch("api/bookmarks", {
@@ -119,6 +122,7 @@ export default class App extends React.Component {
         'token': this.state.token
       }
     }).then(response => response.json()).then(data => console.log(data))
+    this.setState((prevState) => ({ delete: prevState.delete + 1 }))
   }
   render() {
     return (
