@@ -26,26 +26,26 @@ export default function IntroForm(props) {
         </div>
 
         {props.isRegistered ? (
-          <Link to="/bookmarks">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={props.handleLogin}
-            >
-              Login
+
+          <button
+            type="submit"
+            className="btn btn-primary"
+            onClick={props.handleLogin}
+          >
+            Login
             </button>
-          </Link>
+
         ) : (
-          <Link to="/">
-            <button
-              type="submit"
-              className="btn btn-primary"
-              onClick={props.handleRegister}
-            >
-              Register
+            <Link to="/">
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={props.handleRegister}
+              >
+                Register
             </button>
-          </Link>
-        )}
+            </Link>
+          )}
       </form>
     </div>
   );
