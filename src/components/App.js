@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Redirect } from "react-router-dom";
 import "../styles/App.scss";
 import IntroForm from "./IntroForm";
 import List from "./List";
@@ -19,6 +19,7 @@ export default class App extends React.Component {
       password: localStorage.getItem("password") || null,
       token: localStorage.getItem("token") || null,
       isRegistered: localStorage.getItem("isRegistered") || false,
+      isLogged: localStorage.getItem("isLogged") || false,
       bookmarks: []
     };
   }
@@ -48,7 +49,7 @@ export default class App extends React.Component {
       });
   };
   handleLogin = e => {
-    e.preventDefault()
+    e.preventDefault();
     fetch("auth/login", {
       method: "POST",
       headers: {
@@ -63,8 +64,9 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({ token: data.data.token });
+        this.setState({ token: data.data.token, isLogged: true });
         localStorage.setItem("token", data.data.token);
+        localStorage.setItem("isLogged", "true");
       });
   };
   handleAdd = e => {
@@ -82,15 +84,20 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.getData();
+        if (data.error === "jwt malformed" || data.error === "jwt expired") {
+          this.setState({ isLogged: false });
+          localStorage.setItem("isLogged", "false");
+        } else {
+          this.getData();
+        }
       });
   };
-  handleEdit = (id) => {
+  handleEdit = id => {
     fetch(`api/bookmarks/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        "token": this.state.token
+        token: this.state.token
       },
       body: JSON.stringify({
         url: this.urlField.current.value,
@@ -100,7 +107,12 @@ export default class App extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.getData();
+        if (data.error === "jwt malformed" || data.error === "jwt expired") {
+          this.setState({ isLogged: false });
+          localStorage.setItem("isLogged", "false");
+        } else {
+          this.getData();
+        }
       });
   };
   getData = () => {
@@ -114,21 +126,31 @@ export default class App extends React.Component {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        this.setState({ bookmarks: data.data.bookmark });
+        if (data.error === "jwt malformed" || data.error === "jwt expired") {
+          this.setState({ isLogged: false });
+          localStorage.setItem("isLogged", "false");
+        } else {
+          this.setState({ bookmarks: data.data.bookmark });
+        }
       });
   };
-  handleDelete = (id) => {
+  handleDelete = id => {
     fetch(`api/bookmarks/${id}`, {
       method: "DELETE",
       headers: {
-        'token': this.state.token
+        token: this.state.token
       }
-    }).then(response => response.json()).then(data => {
-      this.getData()
     })
-
-
-  }
+      .then(response => response.json())
+      .then(data => {
+        if (data.error === "jwt malformed" || data.error === "jwt expired") {
+          this.setState({ isLogged: false });
+          localStorage.setItem("isLogged", "false");
+        } else {
+          this.getData();
+        }
+      });
+  };
   render() {
     return (
       <div className="App">
@@ -136,32 +158,49 @@ export default class App extends React.Component {
           <Route
             exact
             path="/"
-            render={() => (
-              <IntroForm
-                isRegistered={this.state.isRegistered}
-                usernameField={this.usernameField}
-                passwordField={this.passwordField}
-                handleRegister={this.handleRegister}
-                handleLogin={this.handleLogin}
-              />
-            )}
+            render={() =>
+              this.state.isLogged ? (
+                <Redirect to="/bookmarks" />
+              ) : (
+                <IntroForm
+                  isRegistered={this.state.isRegistered}
+                  usernameField={this.usernameField}
+                  passwordField={this.passwordField}
+                  handleRegister={this.handleRegister}
+                  handleLogin={this.handleLogin}
+                />
+              )
+            }
           />
           <Route
             path="/bookmarks"
-            render={() => (
-              <List bookmarks={this.state.bookmarks} getData={this.getData} handleDelete={this.handleDelete} />
-            )}
+            render={() =>
+              this.state.isLogged ? (
+                <List
+                  bookmarks={this.state.bookmarks}
+                  getData={this.getData}
+                  handleDelete={this.handleDelete}
+                />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route
             path="/add"
-            render={() => (
-              <Edidt
-                handleAdd={this.handleAdd}
-                idField={this.idField}
-                urlField={this.urlField}
-                descriptionField={this.descriptionField}
-                titleField={this.titleField}
-              />)}
+            render={() =>
+              this.state.isLogged ? (
+                <Edidt
+                  handleAdd={this.handleAdd}
+                  idField={this.idField}
+                  urlField={this.urlField}
+                  descriptionField={this.descriptionField}
+                  titleField={this.titleField}
+                />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
           <Route
             path="/edit"
